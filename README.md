@@ -10,5 +10,6 @@ servlets, jsp, JDBC, Jstl, and Java Beans.
 4. Start server
 
 
+
 ⚠ admin account creds are stored in app.properties file respect the keys or it won't work  
 
