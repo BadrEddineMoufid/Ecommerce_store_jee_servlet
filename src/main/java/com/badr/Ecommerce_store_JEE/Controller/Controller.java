@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.swing.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.function.Supplier;
 import com.badr.Ecommerce_store_JEE.Util.DB;
 import com.badr.Ecommerce_store_JEE.beans.Product;
@@ -26,13 +28,27 @@ public class Controller extends HttpServlet {
     static ArrayList<String> cartlist = new ArrayList<>();
     ArrayList<User> userList = new ArrayList<>();
     HttpSession session;
+    Properties props;
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        //get the app.properties file
+        InputStream inputStream = getServletContext().getResourceAsStream("/WEB-INF/app.properties");
+        props = new Properties();
+        try {
+            props.load(inputStream);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page = request.getParameter("page");
         if (page == null || page.equals("index")) {
 
             //fetch products from db
-            DB db = new DB();
+            DB db = new DB(props);
             try {
                 list = db.fetch();
             } catch (SQLException e) {
@@ -81,7 +97,7 @@ public class Controller extends HttpServlet {
                 user.setUsername(username);
                 user.setPassword(password_1);
 
-                DB db = new DB();
+                DB db = new DB(props);
                 try {
                     db.addUser(user);
                 } catch (SQLException e) {
@@ -112,7 +128,7 @@ public class Controller extends HttpServlet {
             String password = request.getParameter("password");
 
             //check if user exists
-            DB db = new DB();
+            DB db = new DB(props);
             User user = new User();
 
             boolean status = false;
@@ -159,7 +175,7 @@ public class Controller extends HttpServlet {
         }
 
         if (page.equals("mobiles") || page.equals("laptops") || page.equals("clothing") || page.equals("home-decor") || page.equals("all-products")) {
-            DB db = new DB();
+            DB db = new DB(props);
             try {
                 list = db.fetch();
             } catch (SQLException e) {

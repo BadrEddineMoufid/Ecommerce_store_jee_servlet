@@ -5,8 +5,13 @@ package com.badr.Ecommerce_store_JEE.Util;
 import com.badr.Ecommerce_store_JEE.beans.Product;
 import com.badr.Ecommerce_store_JEE.beans.User;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Properties;
 
 
 public class DB {
@@ -14,11 +19,20 @@ public class DB {
 
 	//yeeeyy you read the README.md file awesome now change the vars
 	//old MySQL driver name: com.mysql.jdbc.Driver
+	//ok no more hard code stuff hihihihihihi
+	private Properties properties;
+	private String username;
+	private String password ;
+	private String url;
+	private String driver;
 
-	private String username = "root";
-	private String password = "falcon";
-	private String url = "jdbc:mysql://localhost:3306/jee_project";
-	private String driver = "com.mysql.cj.jdbc.Driver";
+	public DB(Properties properties) {
+		this.properties = properties;
+		this.username = properties.getProperty("dbUser");
+		this.password = properties.getProperty("dbPassword");
+		this.url = properties.getProperty("dbUrl");
+		this.driver = properties.getProperty("dbDriver");
+	}
 
 	ArrayList<Product> list = new ArrayList<>();
 	ArrayList<User> userList = new ArrayList<>();

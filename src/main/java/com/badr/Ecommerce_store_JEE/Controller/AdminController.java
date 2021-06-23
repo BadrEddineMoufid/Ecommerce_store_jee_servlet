@@ -33,7 +33,7 @@ public class AdminController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 	private String admin;
 	private String adminPassword;
-
+	private Properties props;
 
 	@Override
 	public void init() throws ServletException {
@@ -43,7 +43,7 @@ public class AdminController extends HttpServlet {
 
 		//get the app.properties file
 		InputStream inputStream = getServletContext().getResourceAsStream("/WEB-INF/app.properties");
-		Properties props = new Properties();
+		props = new Properties();
 		try {
 			props.load(inputStream);
 
@@ -100,7 +100,7 @@ public class AdminController extends HttpServlet {
 			//same stuff here get id, query db bla bla  .....
 
 			String id = request.getParameter("id");
-			DB db = new DB();
+			DB db = new DB(props);
 			try {
 				db.deleteProduct(id);
 			} catch (SQLException e) {
@@ -132,7 +132,7 @@ public class AdminController extends HttpServlet {
 			//get the id of the product to edit
 			String id = request.getParameter("id");
 			//query db
-			DB account = new DB();
+			DB account = new DB(props);
 			Product p = null;
 			try {
 				 p = account.fetchProduct(id);
@@ -162,7 +162,7 @@ public class AdminController extends HttpServlet {
 			p.setFeatured(featured);
 
 
-			DB account = new DB();
+			DB account = new DB(props);
 			try {
 				account.updateProduct(p);
 			} catch (SQLException e) {
@@ -218,7 +218,7 @@ public class AdminController extends HttpServlet {
 			}
 			p.setImage("img/"+fileName);
 
-			DB account = new DB();
+			DB account = new DB(props);
 			try {
 				account.addProduct(p);
 			} catch (SQLException e) {
