@@ -6,6 +6,10 @@ package com.badr.Ecommerce_store_JEE.Controller;
  *
  */
 
+import com.badr.Ecommerce_store_JEE.Util.DB;
+import com.badr.Ecommerce_store_JEE.beans.Product;
+import com.badr.Ecommerce_store_JEE.beans.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +22,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.function.Supplier;
-import com.badr.Ecommerce_store_JEE.Util.DB;
-import com.badr.Ecommerce_store_JEE.beans.Product;
-import com.badr.Ecommerce_store_JEE.beans.User;
 
 public class Controller extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -154,7 +155,7 @@ public class Controller extends HttpServlet {
                 session.setAttribute("username", username);
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             } else {
-                request.setAttribute("msg", "Invalid Crediantials");
+                request.setAttribute("msg", "Invalid Credentials");
                 request.setAttribute("username", username);
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
